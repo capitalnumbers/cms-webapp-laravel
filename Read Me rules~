@@ -1,0 +1,30 @@
+--------------------------- Rules for front end ---------------------------
+
+
+--------------------------- Rules for admin -------------------------------
+
+1.Try to avoid "admin" as prefix I use "Administrator".
+2. Use Laravel forms and html avoid direct html.("laravelcollective/html": "5.3.*")
+	then add the bellow code in "config/app.php"
+	'aliases' => [
+	    // ...
+	      'Form' => Collective\Html\FormFacade::class,
+	      'Html' => Collective\Html\HtmlFacade::class,
+	    // ...
+	  ],
+3.
+
+-------------------------- General Rules ----------------------------------
+
+1.Use Repository don't use any model directly.
+	to create arepository you need to follow the process.
+	i)create a reposit folder in app and crete your repository.
+	ii)got to "app/Providers/AppServiceProvider.php" and  add "use App\Repositories\UserRepository;"
+	iii)to use yor repository add repositories 
+		public function register()
+  		{
+           		$this->app->singleton(Main::class, UserRepository::class);
+        	}
+	
+2.Create a model folder inside app and create your model there . don't use app directory.
+
