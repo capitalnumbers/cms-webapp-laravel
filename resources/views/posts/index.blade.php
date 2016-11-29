@@ -14,7 +14,7 @@
           <div class="x_title">
             <h2>Posts <small>List</small></h2>
             <ul class="nav navbar-right panel_toolbox">
-             <li><a href="{{url('country/create')}}" style="background-color:green; color:#fff" ><i class="fa fa-plus" aria-hidden="true"></i>Add new</a></li>
+             <li><a href="{{url('administrator/post/create')}}" style="background-color:green; color:#fff" ><i class="fa fa-plus" aria-hidden="true"></i>Add new</a></li>
             </ul>                    
             <div class="clearfix"></div>
           </div>
@@ -23,14 +23,20 @@
 			<table id="datatable" class="table table-striped table-bordered">
 				<thead>
 				<tr>
-				  <th>Name</th>
+				  <th>Title</th>
+				  <th>Category</th>
+				  <th>Slug</th>
+				  <th>Description</th>
 				  <th text-align:center" >Action</th>
 				</tr>
 				</thead>
 			  	<tbody>
 			  	@foreach ($posts as $post)
 			  		<tr>
-			  			<td>{{$post->name}}</td>
+			  			<td>{{$post->title}}</td>
+			  			<td>{{$post->post_category->name}}</td>
+			  			<td>{{$post->slug}}</td>
+			  			<td>{{$post->description}}</td>
 			  			
 			  			<td class="action">
 			  				<a class="btn btn-app edit b_status"  title="status" classification_id="{{$post->id}}">
@@ -56,7 +62,7 @@
 <script src="{{{ url('assets/js/jquery.dataTables.min.js')}}}"></script>
 <script type="text/javascript">
  jQuery(document).ready(function(){
-    $('#datatable').dataTable({"sPaginationType": "full_numbers", "bStateSave": true, "ordering": false, "aoColumns":[{},{'width':'22%'}]});
+    $('#datatable').dataTable({"sPaginationType": "full_numbers", "bStateSave": true, "ordering": false, "aoColumns":[{},{},{},{},{'width':'22%'}]});
     $(".b_status").click(function(){
 
     	var t=$(this);

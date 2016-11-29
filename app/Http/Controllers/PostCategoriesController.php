@@ -13,6 +13,7 @@ class PostCategoriesController extends Controller
 {
     
     public function __construct(Request $request, PostCategoryRepository $postCategory){
+    	
     	$this->postCategory=$postCategory;
     	$this->request = $request;
     }
@@ -149,7 +150,6 @@ class PostCategoriesController extends Controller
         }
 
         return $arr;
-
     }
 
 }

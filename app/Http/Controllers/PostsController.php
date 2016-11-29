@@ -29,7 +29,9 @@ class PostsController extends Controller
     /**@---------- Create new post -------------*/
     public function create(){
 
-    	return view('posts/create');
+    	$categories=$this->post->list_category();
+
+    	return view('posts/create')->with('categories', $categories);
     }
 
     /**@---------- Edit Post -------------*/
@@ -44,12 +46,12 @@ class PostsController extends Controller
     public function save(){
     	$validation=$this->validation($this->request);
         if($validation['status']==1){
-            $this->request->merge(['active' => 'Yes']);
         	if($this->request->id){
         		$post= $this->post->update($this->request->id, $this->request->all());
 		        Session::flash('success', 'Post Updated');
         		return redirect(url('administrator/posts'));
         	}else{
+        		$this->request->merge(['active' => 'Yes','slug'=> $this->create_slug($this->request->title)]);
         		$this->post->create($this->request->all());
         		Session::flash('success', 'Post created');
         		return redirect(url('administrator/posts'));
@@ -100,16 +102,36 @@ class PostsController extends Controller
     	$status=1; //initiate status success
         $message='';
 
-        if(!isset($data->name) || $data->name=='' ){
-            $message .=" *Please enter Country name";
+        if(!isset($data->title) || $data->title=='' ){
+            $message .=" *Please enter post title";
             $status=-1; //error status
         }
-        
-        if(isset($data->name) && $data->name!='' && !preg_match('/^[a-zA-Z ]*$/', $data->name)){
-            $message .=" *Please enter valid Country name";
+        if(isset($data->title) && $data->title!='' && !preg_match('/^[a-zA-Z ]*$/', $data->title)){
+            $message .=" *Please enter valid post title";
             $status=-1; //error status
         }
-
+        if(isset($data->description) && $data->description!='' && preg_match('/\<script(.*?)?\>/', html_entity_decode($data->description))){
+        	$message .=" *Script not allowed in description";
+            $status=-1; //error status
+        }
+     
         return ['status'=>$status, 'message'=>$message];
     }
+
+    /*------------------ Crate Slug for url -------------------*/
+    private function create_slug($text)
+	{
+		$text = preg_replace('~[^\pL\d]+~u', '-', $text); 	// replace non letter or digits by -
+		$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);	// transliterate
+		$text = preg_replace('~[^-\w]+~', '', $text);			// remove unwanted characters
+		$text = trim($text, '-');								// trim
+		$text = preg_replace('~-+~', '-', $text);				// remove duplicate -
+		$text = strtolower($text);							// lowercase
+		if (empty($text)) {
+
+			return 'n-a';
+		}
+
+		return $text;
+	}
 }
