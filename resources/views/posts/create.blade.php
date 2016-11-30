@@ -16,7 +16,7 @@
 				<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					{{ Form::open(['url' => 'administrator/post/save', 'class'=>'form-horizontal form-label-left']) }}
+					{{ Form::open(['url' => 'administrator/post/save', 'class'=>'form-horizontal form-label-left', 'files' => true]) }}
 					<div class="item form-group">
 						{{Form::label('post_category_id', 'Category *', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
 						<div class="col-md-5 col-sm-5 col-xs-12">
@@ -42,16 +42,16 @@
 						</div>	
 					</div>
 					<div class="item form-group">						
-						{{Form::label('image', 'Image', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
+						{{Form::label('images', 'Image', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
 						<div class="col-md-5 col-sm-5 col-xs-12">
-							{{Form::file('image', ['class'=>'', 'accept'=>"image/*"])}}
+							{{Form::file('images', ['class'=>'', 'accept'=>"image/*"])}}
 						</div>	
-						<img id="blah" alt="" width="90px" />
+						<img id="img" alt="" width="90px" />
 					</div>
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-md-offset-3">
-							<button type="button" onclick="window.location='{{url('countries')}}'" class="btn btn-primary">Cancel</button>
+							<button type="button" onclick="window.location='{{url('administrator/posts')}}'" class="btn btn-primary">Cancel</button>
 							<button id="send" type="submit" class="btn btn-success">Submit</button>
 						</div>
 					</div>
@@ -62,7 +62,25 @@
 	</div>
 </div>
 <script>
+
+/**@------- Load Image Upload Time --------*/
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#img').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 $(document).ready(function(){
+
+	$("#images").change(function(){
+	    readURL(this);
+	});
+
 	tinyMCE.init({
 	    mode : "textareas",
 	    theme : "modern",

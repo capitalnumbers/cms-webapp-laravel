@@ -38,15 +38,28 @@ class PostsController extends Controller
     public function edit($id=''){
 
     	$post=$this->post->getById($id);
+    	$categories=$this->post->list_category();
 
-    	return view('posts/edit')->with('post', $post);
+    	return view('posts/edit')->with('post', $post)->with('categories', $categories);
     }
 
     /**@---------- Save Post ----------------*/
     public function save(){
     	$validation=$this->validation($this->request);
         if($validation['status']==1){
+        	if ($this->request->hasFile('images')) {
+	            if ($this->request->file('images')->isValid()) {
+	                $extension=$this->request->file('images')->getClientOriginalExtension(); 
+	                $fileName = time().rand(11111,99999).'.'.$extension;
+	                public_path().DS.'images'.DS.'postImages';
+	                $this->request->file('images')->move(public_path().DS.'images'.DS.'postImages', $fileName);
+	                $this->request->merge(['image' => $fileName]);
+	            }
+	        }
         	if($this->request->id){
+        		if ($this->request->hasFile('images')){
+        			if($this->request->prev_image)@unlink(public_path().DS.'images'.DS.'postImages'.DS.$this->request->prev_image);
+        		}
         		$post= $this->post->update($this->request->id, $this->request->all());
 		        Session::flash('success', 'Post Updated');
         		return redirect(url('administrator/posts'));

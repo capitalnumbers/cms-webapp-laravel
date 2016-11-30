@@ -16,18 +16,44 @@
 				<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					{{ Form::open(['url' => 'country/save', 'class'=>'form-horizontal form-label-left']) }}
-					{{ Form::hidden('id', $country->id) }}
+					{{ Form::open(['url' => 'administrator/post/save', 'class'=>'form-horizontal form-label-left', 'files' => true]) }}
+					{{ Form::hidden('id', $post->id) }}
 					<div class="item form-group">
-						{{Form::label('name', 'Country Name *', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
+						{{Form::label('post_category_id', 'Category *', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
 						<div class="col-md-5 col-sm-5 col-xs-12">
-							{{Form::text('name', $country->name, ['class'=>'form-control col-md-7 col-xs-12'])}}
+							{{Form::select('post_category_id', $categories, $post->post_category_id, ['class'=>'form-control col-md-7 col-xs-12'])}}
 						</div>	
+					</div>
+					<div class="item form-group">
+						{{Form::label('title', 'Title *', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
+						<div class="col-md-5 col-sm-5 col-xs-12">
+							{{Form::text('title', $post->title, ['class'=>'form-control col-md-7 col-xs-12'])}}
+						</div>	
+					</div>
+					<div class="item form-group">
+						{{Form::label('type', 'Type*', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
+						<div class="col-md-5 col-sm-5 col-xs-12">
+							{{Form::text('type', $post->type, ['class'=>'form-control col-md-7 col-xs-12'])}}
+						</div>	
+					</div>
+					<div class="item form-group">
+						{{Form::label('description', 'description', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
+						<div class="col-md-8 col-sm-5 col-xs-12">
+							{{Form::textarea('description', $post->description, ['class'=>'form-control col-md-7 col-xs-12'])}}
+						</div>	
+					</div>
+					<div class="item form-group">						
+						{{Form::label('images', 'Image', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
+						<div class="col-md-5 col-sm-5 col-xs-12">
+							{{Form::file('images', ['class'=>'', 'accept'=>"image/*"])}}
+							{{ Form::hidden('prev_image', $post->image) }}
+						</div>	
+						<img id="img" alt="" src="{{url('images/postImages/'.$post->image)}}" width="90px" />
 					</div>
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-md-offset-3">
-							<button type="button" onclick="window.location='{{url('countries')}}'" class="btn btn-primary">Cancel</button>
+							<button type="button" onclick="window.location='{{url('administrator/posts')}}'" class="btn btn-primary">Cancel</button>
 							<button id="send" type="submit" class="btn btn-success">Submit</button>
 						</div>
 					</div>
@@ -38,7 +64,25 @@
 	</div>
 </div>
 <script>
+
+/**@------- Load Image Upload Time --------*/
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#img').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 $(document).ready(function(){
+
+	$("#images").change(function(){
+	    readURL(this);
+	});
 
 	$('form').submit(function(e) {
         e.preventDefault();
@@ -46,17 +90,24 @@ $(document).ready(function(){
         $('.item').removeClass('bad');
         $(".alert").remove();
         var submit = true;
-        var name=$('#name').val();
-        if(name==''){
-        	$("#name").closest('.item').addClass('bad');
-			$("#name").parent().after('<div class="alert">Please enter country name</div>');
+        var title=$('#title').val();
+        tinyMCE.triggerSave(false, true);
+        var description=$('#description').val();
+        if(title==''){
+        	$("#title").closest('.item').addClass('bad');
+			$("#title").parent().after('<div class="alert">Please enter country Title</div>');
 			submit=false;
 		}
-		if(name!='' && !name.match(/^[a-zA-Z ]*$/)){
-			$("#name").closest('.item').addClass('bad');
-			$("#name").parent().after('<div class="alert">Please enter a valid name</div>');
+		if(title!='' && !title.match(/^[a-zA-Z0-9 ]*$/)){
+			$("#title").closest('.item').addClass('bad');
+			$("#title").parent().after('<div class="alert">Please enter a valid title</div>');
 			submit=false;
 		}
+		if(description!='' && (description.match(/\&lt;script(.*?)?&gt;/)||description.match(/\<script(.*?)?\>/))){
+ 			$("#description").closest('.item').addClass('bad');
+ 			$("#description").parent().after('<div class="alert">Script not allowed</div>');
+  			submit=false;
+ 		}
         if (submit)
           this.submit();
 
