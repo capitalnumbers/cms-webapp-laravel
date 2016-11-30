@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="assets/css/app.css" rel="stylesheet">
+    <link href="{{url('assets/css/app.css')}}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -80,6 +80,8 @@
     @yield('content')
 
     <!-- Scripts -->
+    <script src="{{{ url('assets/js/jquery.min.js') }}}"></script>
+    <script src="{{{ url('assets/js/bootstrap.min.js')}}}"></script>
     <script src="assets/js/app.js"></script>
 </body>
 </html>
