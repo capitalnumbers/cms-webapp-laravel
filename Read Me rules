@@ -31,3 +31,11 @@
 	
 2.Create a model folder inside app and create your model there . don't use app directory.
 
+3.Create ustom Commands 
+	i)first run the command "php artisan make:command commandName"
+	ii)set signature in the command file located /App/Console/Commands
+	iii)Add the command class in karnel /App/Console/karnel.php 
+	like protected $commands = [
+				\App\Console\Commands\CreateUser::class,
+			    ];
+

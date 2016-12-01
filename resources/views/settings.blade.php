@@ -20,7 +20,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    {{ Form::open(['url' => 'settings', 'class'=>'form-horizontal form-label-left']) }}
+                    {{ Form::open(['url' => 'administrator/settings', 'class'=>'form-horizontal form-label-left']) }}
                         <div class="form-group">
                           {{Form::label('footerText', 'Footer Text', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
                           <div class="col-md-9 col-sm-9 col-xs-12">

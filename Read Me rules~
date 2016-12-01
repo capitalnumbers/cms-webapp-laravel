@@ -6,6 +6,9 @@
 1.Try to avoid "admin" as prefix I use "Administrator".
 2. Use Laravel forms and html avoid direct html.("laravelcollective/html": "5.3.*")
 	then add the bellow code in "config/app.php"
+	'providers'=>[
+		Collective\Html\HtmlServiceProvider::class,
+	],
 	'aliases' => [
 	    // ...
 	      'Form' => Collective\Html\FormFacade::class,
@@ -27,4 +30,9 @@
         	}
 	
 2.Create a model folder inside app and create your model there . don't use app directory.
+
+3.Create ustom Commands 
+	i)first run the command "php artisan make:command commandName"
+	ii)set signature in the command file located /App/Console/Commands
+	ii)
 
