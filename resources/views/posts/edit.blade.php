@@ -95,7 +95,7 @@ $(document).ready(function(){
         var description=$('#description').val();
         if(title==''){
         	$("#title").closest('.item').addClass('bad');
-			$("#title").parent().after('<div class="alert">Please enter country Title</div>');
+			$("#title").parent().after('<div class="alert">Please enter post Title</div>');
 			submit=false;
 		}
 		if(title!='' && !title.match(/^[a-zA-Z0-9 ]*$/)){

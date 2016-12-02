@@ -41,6 +41,14 @@ Route::group(['prefix'=>'administrator','middleware' => ['auth']], function(){
 	Route::post('post/delete', 'PostsController@delete'); //Delete Post 
 	Route::post('post/change-status', 'PostsController@change_status');//change active status ajax
 
+	/**@--------------- Banner Section ----------------*/
+	Route::get('banners', 'BannersController@index');
+	Route::get('banner/create', 'BannersController@create'); //create a new Post Category
+	Route::get('banner/edit/{id}', 'BannersController@edit'); //Edit Post Category
+	Route::post('banner/save', 'BannersController@save'); //Save Post Category data
+	Route::post('banner/delete', 'BannersController@delete'); //Delete Post Category
+	Route::post('banner/change-status', 'BannersController@change_status');//change active status ajax
+
 });
 
 Auth::routes();

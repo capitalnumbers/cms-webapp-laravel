@@ -11,28 +11,16 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-				<h2>Create New Post</h2>
+				<h2>Create New Banner</h2>
 				
 				<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					{{ Form::open(['url' => 'administrator/post/save', 'class'=>'form-horizontal form-label-left', 'files' => true]) }}
-					<div class="item form-group">
-						{{Form::label('post_category_id', 'Category *', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
-						<div class="col-md-5 col-sm-5 col-xs-12">
-							{{Form::select('post_category_id', $categories,null, ['class'=>'form-control col-md-7 col-xs-12'])}}
-						</div>	
-					</div>
+					{{ Form::open(['url' => 'administrator/banner/save', 'class'=>'form-horizontal form-label-left', 'files' => true]) }}
 					<div class="item form-group">
 						{{Form::label('title', 'Title *', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
 						<div class="col-md-5 col-sm-5 col-xs-12">
 							{{Form::text('title', null, ['class'=>'form-control col-md-7 col-xs-12'])}}
-						</div>	
-					</div>
-					<div class="item form-group">
-						{{Form::label('type', 'Type*', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'])}}
-						<div class="col-md-5 col-sm-5 col-xs-12">
-							{{Form::text('type', null, ['class'=>'form-control col-md-7 col-xs-12'])}}
 						</div>	
 					</div>
 					<div class="item form-group">
@@ -51,7 +39,7 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-6 col-md-offset-3">
-							<button type="button" onclick="window.location='{{url('administrator/posts')}}'" class="btn btn-primary">Cancel</button>
+							<button type="button" onclick="window.location='{{url('administrator/banners')}}'" class="btn btn-primary">Cancel</button>
 							<button id="send" type="submit" class="btn btn-success">Submit</button>
 						</div>
 					</div>
@@ -109,7 +97,7 @@ $(document).ready(function(){
         var description=$('#description').val();
         if(title==''){
         	$("#title").closest('.item').addClass('bad');
-			$("#title").parent().after('<div class="alert">Please enter post Title</div>');
+			$("#title").parent().after('<div class="alert">Please enter banner Title</div>');
 			submit=false;
 		}
 		if(title!='' && !title.match(/^[a-zA-Z0-9 ]*$/)){
