@@ -1,9 +1,7 @@
 <?php
 
 /**@----------------------------------- Web Routes ------------------*/
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PagesController@index'); // Home Page
 
 /**@----------------------- Admin Area ------------------------------*/
 Route::group(['prefix'=>'administrator','middleware' => ['auth']], function(){
